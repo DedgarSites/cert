@@ -44,8 +44,6 @@ func postCert(c echo.Context) error {
 }
 
 func main() {
-	fmt.Println("certpull v0.0.2")
-
 	e := echo.New()
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
@@ -53,6 +51,8 @@ func main() {
 	e.POST("/api/cert", postCert)
 
 	//e.Logger.Info(e.Start(":8080"))
+	fmt.Println("printing port, cert, key", port, cert, key)
+
 	e.Logger.Info(e.StartTLS(port, cert, key))
 	fmt.Println("passed the start")
 }

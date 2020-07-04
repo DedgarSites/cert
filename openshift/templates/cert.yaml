@@ -108,18 +108,22 @@ objects:
       spec:
         containers:
         - name: ${APP_NAME}
-          image: quay.io/dedgar/${APP_NAME}:latest
+          image: quay.io/dedgar/${APP_NAME}:v0.0.3
           env:
           - name: PAUSE_ON_START
             value: "false"
           - name: TLS_PORT
-            value: "${TLS_PORT}"
+            value: ${TLS_PORT}
           - name: APP_DOMAIN
-            value: "${APP_DOMAIN}"
+            value: ${APP_DOMAIN}
           - name: CERT_PATH
-            value: "${CERT_PATH}"
+            value: ${CERT_PATH}
           - name: TLS_FILE_PATH
-            value: "${TLS_FILE_PATH}"
+            value: ${TLS_FILE_PATH}
+          - name: SSCS_CERT
+            value: ${SSCS_CERT}
+          - name: SSCS_KEY
+            value: ${SSCS_KEY}
           ports:
           - containerPort: ${TLS_PORT}
           volumeMounts:
@@ -135,17 +139,17 @@ objects:
           - name: LEGO_CERT
             value: "true"
           - name: TLS_PORT
-            value: "${TLS_PORT}"
+            value: ${TLS_PORT}
           - name: CERT_EMAIL
-            value: "${CERT_EMAIL}"
+            value: ${CERT_EMAIL}
           - name: APP_DOMAIN
-            value: "${APP_DOMAIN}"
+            value: ${APP_DOMAIN}
           - name: CERT_PATH
-            value: "${CERT_PATH}"
+            value: ${CERT_PATH}
           - name: CERT_SERVER
-            value: "${CERT_SERVER}"
+            value: ${CERT_SERVER}
           - name: TLS_FILE_PATH
-            value: "${TLS_FILE_PATH}"
+            value: ${TLS_FILE_PATH}
           volumeMounts:
           - mountPath: /cert
             name: cert
