@@ -3,10 +3,10 @@
 FROM golang:latest 
 
 # Pause indefinitely if asked to do so.
-ARG OO_PAUSE_ON_BUILD
-RUN test "$OO_PAUSE_ON_BUILD" = "true" && while sleep 10; do true; done || :
+ARG PAUSE_ON_BUILD
+RUN test "$PAUSE_ON_BUILD" = "true" && while sleep 10; do true; done || :
 
-ADD scripts/ /usr/local/bin/
+COPY scripts/ /usr/local/bin/
 
 ENV GOBIN=/bin \
     GOPATH=/go
@@ -17,7 +17,8 @@ RUN go get github.com/DedgarSites/cert && \
     cd && \
     rm -rf /go
 
-EXPOSE 8080
+EXPOSE 8443
 
-# Start processes
-CMD /usr/local/bin/start.sh
+USER 1001
+
+CMD ["/usr/local/bin/start.sh"]

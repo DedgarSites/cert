@@ -38,13 +38,13 @@ objects:
       local: false
     tags:
     - annotations:
-        openshift.io/imported-from: quay.io/dedgar/${APP_NAME}:latest
+        openshift.io/imported-from: quay.io/dedgar/${APP_NAME}:v0.0.5
       from:
         kind: DockerImage
-        name: quay.io/dedgar/${APP_NAME}:latest
+        name: quay.io/dedgar/${APP_NAME}:v0.0.5
       importPolicy:
         scheduled: true
-      name: "latest"
+      name: "v0.0.5"
       referencePolicy:
         type: Source
 - kind: ImageStream
@@ -87,7 +87,7 @@ objects:
         - ${APP_NAME}
         from:
           kind: ImageStreamTag
-          name: ${APP_NAME}:latest
+          name: ${APP_NAME}:v0.0.5
     - type: ImageChange
       imageChangeParams:
         automatic: true
@@ -108,7 +108,7 @@ objects:
       spec:
         containers:
         - name: ${APP_NAME}
-          image: quay.io/dedgar/${APP_NAME}:v0.0.4
+          image: quay.io/dedgar/${APP_NAME}:v0.0.5
           env:
           - name: PAUSE_ON_START
             value: "false"
