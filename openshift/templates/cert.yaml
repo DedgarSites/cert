@@ -108,7 +108,7 @@ objects:
       spec:
         containers:
         - name: ${APP_NAME}
-          image: quay.io/dedgar/${APP_NAME}:v0.0.3
+          image: quay.io/dedgar/${APP_NAME}:v0.0.4
           env:
           - name: PAUSE_ON_START
             value: "false"

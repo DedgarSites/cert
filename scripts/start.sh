@@ -3,7 +3,7 @@
 # This is useful so we can debug containers running inside of OpenShift that are
 # failing to start properly.
 
-fmt.Println("certpull v0.0.3")
+echo "certpull v0.0.4"
 
 if [ "$PAUSE_ON_START" = "true" ] ; then
   echo
