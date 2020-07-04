@@ -116,8 +116,8 @@ objects:
             value: "false"
           - name: TLS_PORT
             value: ${TLS_PORT}
-          - name: APP_DOMAIN
-            value: ${APP_DOMAIN}
+          - name: DOMAIN_LIST
+            value: ${DOMAIN_LIST}
           - name: CERT_PATH
             value: ${CERT_PATH}
           - name: TLS_FILE_PATH
@@ -144,8 +144,8 @@ objects:
             value: ${TLS_PORT}
           - name: CERT_EMAIL
             value: ${CERT_EMAIL}
-          - name: APP_DOMAIN
-            value: ${APP_DOMAIN}
+          - name: DOMAIN_LIST
+            value: ${DOMAIN_LIST}
           - name: CERT_PATH
             value: ${CERT_PATH}
           - name: CERT_SERVER_PROD
