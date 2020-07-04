@@ -3,9 +3,9 @@
 # This is useful so we can debug containers running inside of OpenShift that are
 # failing to start properly.
 
-if [ "$OO_PAUSE_ON_START" = "true" ] ; then
+if [ "$PAUSE_ON_START" = "true" ] ; then
   echo
-  echo "This container's startup has been paused indefinitely because OO_PAUSE_ON_START has been set."
+  echo "This container's startup has been paused indefinitely because PAUSE_ON_START has been set."
   echo
   while true; do
     sleep 10
@@ -13,4 +13,4 @@ if [ "$OO_PAUSE_ON_START" = "true" ] ; then
 fi
 
 echo "Start cert download server"
-/usr/local/bin/cert
+/bin/cert

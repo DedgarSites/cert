@@ -48,5 +48,5 @@ func main() {
 	e.POST("/api/cert", postCert)
 
 	//e.Logger.Info(e.Start(":8080"))
-	e.Logger.Info(e.StartTLS(":8443", "tls.crt", "tls.key"))
+	e.Logger.Info(e.StartTLS(":8443", os.Getenv("SSCS_CERT"), os.Getenv("SSCS_KEY")))
 }
