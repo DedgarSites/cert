@@ -12,6 +12,9 @@ import (
 
 var (
 	fileMap = make(map[string]string)
+	port    = ":" + os.Getenv("TLS_PORT")
+	cert    = os.Getenv("SSCS_CERT")
+	key     = os.Getenv("SSCS_KEY")
 )
 
 type certFile struct {
@@ -48,5 +51,6 @@ func main() {
 	e.POST("/api/cert", postCert)
 
 	//e.Logger.Info(e.Start(":8080"))
-	e.Logger.Info(e.StartTLS(":8443", os.Getenv("SSCS_CERT"), os.Getenv("SSCS_KEY")))
+	e.Logger.Info(e.StartTLS(port, cert, key))
+	fmt.Println("passed the start")
 }

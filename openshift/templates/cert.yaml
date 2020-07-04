@@ -123,9 +123,8 @@ objects:
           volumeMounts:
           - mountPath: /cert
             name: cert
-          - name: sscs
-            secret:
-              secretName: cert
+          - mountPath: /secrets
+            name: sscs
         - name: ${SIDECAR_NAME}
           image: ${SIDECAR_NAME}
           env:
@@ -157,6 +156,9 @@ objects:
         volumes:
         - name: cert
           emptyDir: {}
+        - name: sscs
+          secret:
+            secretName: cert
 parameters:
 - name: APP_DOMAIN
   description: The exposed hostname that will route to the service, and be used with LetsEncrypt 
