@@ -44,6 +44,8 @@ func postCert(c echo.Context) error {
 }
 
 func main() {
+	fmt.Println("certpull v0.0.2")
+
 	e := echo.New()
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
