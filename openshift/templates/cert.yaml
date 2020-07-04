@@ -38,13 +38,13 @@ objects:
       local: false
     tags:
     - annotations:
-        openshift.io/imported-from: quay.io/dedgar/${APP_NAME}:v0.0.5
+        openshift.io/imported-from: quay.io/dedgar/${APP_NAME}:${APP_VER}
       from:
         kind: DockerImage
-        name: quay.io/dedgar/${APP_NAME}:v0.0.5
+        name: quay.io/dedgar/${APP_NAME}:${APP_VER}
       importPolicy:
         scheduled: true
-      name: "v0.0.5"
+      name: "${APP_VER}"
       referencePolicy:
         type: Source
 - kind: ImageStream
@@ -61,13 +61,13 @@ objects:
       local: false
     tags:
     - annotations:
-        openshift.io/imported-from: quay.io/dedgar/${SIDECAR_NAME}:latest
+        openshift.io/imported-from: quay.io/dedgar/${SIDECAR_NAME}:${SIDECAR_VER}
       from:
         kind: DockerImage
-        name: quay.io/dedgar/${SIDECAR_NAME}:latest
+        name: quay.io/dedgar/${SIDECAR_NAME}:${SIDECAR_VER}
       importPolicy:
         scheduled: true
-      name: "latest"
+      name: ${SIDECAR_VER}
       referencePolicy:
         type: Source
 - kind: DeploymentConfig
@@ -87,7 +87,7 @@ objects:
         - ${APP_NAME}
         from:
           kind: ImageStreamTag
-          name: ${APP_NAME}:v0.0.5
+          name: ${APP_NAME}:${APP_VER}
     - type: ImageChange
       imageChangeParams:
         automatic: true
@@ -95,7 +95,7 @@ objects:
         - ${SIDECAR_NAME}
         from:
           kind: ImageStreamTag
-          name: ${SIDECAR_NAME}:latest
+          name: ${SIDECAR_NAME}:${SIDECAR_VER}
     - type: ConfigChange
     replicas: 1
     selector:
@@ -108,9 +108,11 @@ objects:
       spec:
         containers:
         - name: ${APP_NAME}
-          image: quay.io/dedgar/${APP_NAME}:v0.0.5
+          image: quay.io/dedgar/${APP_NAME}:${APP_VER}
           env:
           - name: PAUSE_ON_START
+            value: "false"
+          - name: USE_STAGE
             value: "false"
           - name: TLS_PORT
             value: ${TLS_PORT}
@@ -132,7 +134,7 @@ objects:
           - mountPath: /secrets
             name: sscs
         - name: ${SIDECAR_NAME}
-          image: quay.io/dedgar/${SIDECAR_NAME}:latest
+          image: quay.io/dedgar/${SIDECAR_NAME}:${SIDECAR_VER}
           env:
           - name: PAUSE_ON_START
             value: "false"
@@ -146,8 +148,10 @@ objects:
             value: ${APP_DOMAIN}
           - name: CERT_PATH
             value: ${CERT_PATH}
-          - name: CERT_SERVER
-            value: ${CERT_SERVER}
+          - name: CERT_SERVER_PROD
+            value: ${CERT_SERVER_PROD}
+          - name: CERT_SERVER_STAGE
+            value: ${CERT_SERVER_STAGE}
           - name: TLS_FILE_PATH
             value: ${TLS_FILE_PATH}
           volumeMounts:
@@ -160,9 +164,18 @@ objects:
           secret:
             secretName: cert
 parameters:
-- name: APP_DOMAIN
-  description: The exposed hostname that will route to the service, and be used with LetsEncrypt 
-  value: "[www.dedgar.com]"
+- name: DOMAIN_LIST
+  description: Comma-separated domain names for which we'll request certificates from LetsEncrypt 
+  value: "www.dedgar.com,www.shinobu.ninja,www.tacofreeze.com"
+- name: CERT_EMAIL
+  description: The email used with LetsEncrypt
+  value: 'contact@shinobu.ninja'
+- name: CERT_SERVER_PROD
+  description: The name of the LetsEncrypt CA server
+  value: 'https://acme-v02.api.letsencrypt.org/directory'
+- name: CERT_SERVER_STAGE
+  description: The name of the LetsEncrypt CA server
+  value: 'https://acme-staging-v02.api.letsencrypt.org/directory'
 - name: TLS_PORT
   description: Port that the application will use to listen for connections
   value: '8443'
@@ -178,9 +191,15 @@ parameters:
 - name: SIDECAR_NAME
   description: The name of the sidecar container that provides the LE certs served by the main web server app
   value: 'pull'
+- name: APP_VER
+  description: The version of the application container. Used to pull images with this tag
+  value: 'v0.0.6'
+- name: SIDECAR_VER
+  description: The version of the sidecar container. Used to pull images with this tag
+  value: 'v0.0.2'
 - name: SSCS_CERT
   description: The path to the cert file provided by SSCS
-  value: '/secrets/cert.crt'
+  value: '/secrets/tls.crt'
 - name: SSCS_KEY
   description: The path to the key file provided by SSCS
-  value: '/secrets/cert.key'
+  value: '/secrets/tls.key'
