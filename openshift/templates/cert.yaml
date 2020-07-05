@@ -139,7 +139,7 @@ objects:
           - name: LEGO_CERT
             value: "true"
           - name: USE_STAGE
-            value: "false"
+            value: ${USE_STAGE}
           - name: TLS_PORT
             value: ${TLS_PORT}
           - name: CERT_EMAIL
@@ -203,3 +203,6 @@ parameters:
 - name: SSCS_KEY
   description: The path to the key file provided by SSCS
   value: '/secrets/tls.key'
+- name: USE_STAGE
+  description: A boolean flag to determine whether the LetsEncrypt staging or production server is used
+  value: 'false'
