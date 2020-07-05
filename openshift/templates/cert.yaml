@@ -112,8 +112,6 @@ objects:
           env:
           - name: PAUSE_ON_START
             value: "false"
-          - name: USE_STAGE
-            value: "false"
           - name: TLS_PORT
             value: ${TLS_PORT}
           - name: DOMAIN_LIST
@@ -140,6 +138,8 @@ objects:
             value: "false"
           - name: LEGO_CERT
             value: "true"
+          - name: USE_STAGE
+            value: "false"
           - name: TLS_PORT
             value: ${TLS_PORT}
           - name: CERT_EMAIL
