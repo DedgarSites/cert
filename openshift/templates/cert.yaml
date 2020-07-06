@@ -193,10 +193,10 @@ parameters:
   value: 'pull'
 - name: APP_VER
   description: The version of the application container. Used to pull images with this tag
-  value: 'v0.0.6'
+  value: 'v0.0.7'
 - name: SIDECAR_VER
   description: The version of the sidecar container. Used to pull images with this tag
-  value: 'v0.0.3'
+  value: 'v0.0.4'
 - name: SSCS_CERT
   description: The path to the cert file provided by SSCS
   value: '/secrets/tls.crt'

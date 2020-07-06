@@ -18,7 +18,7 @@ var (
 )
 
 type certFile struct {
-	fileName string
+	FileName string `json:"FileName"`
 }
 
 // POST /api/cert
@@ -34,11 +34,11 @@ func postCert(c echo.Context) error {
 	if err != nil {
 		fmt.Println(err)
 	}
-	cFile.fileName = reg.ReplaceAllString(cFile.fileName, "")
+	cFile.FileName = reg.ReplaceAllString(cFile.FileName, "")
 
 	// check if file exists in list of files found in shared EmptyDir vol
-	if _, err := os.Stat("/cert/" + cFile.fileName); err == nil {
-		return c.Attachment(cFile.fileName, cFile.fileName)
+	if _, err := os.Stat("/cert/certificates/" + cFile.FileName); err == nil {
+		return c.Attachment(cFile.FileName, cFile.FileName)
 	}
 	return &echo.HTTPError{Code: http.StatusBadRequest, Message: "Failed to find file"}
 }
