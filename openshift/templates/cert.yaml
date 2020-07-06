@@ -116,14 +116,14 @@ objects:
             value: ${TLS_PORT}
           - name: DOMAIN_LIST
             value: ${DOMAIN_LIST}
-          - name: CERT_PATH
-            value: ${CERT_PATH}
           - name: TLS_FILE_PATH
             value: ${TLS_FILE_PATH}
           - name: SSCS_CERT
             value: ${SSCS_CERT}
           - name: SSCS_KEY
             value: ${SSCS_KEY}
+          - name: APP_VER
+            value: ${APP_VER}
           ports:
           - containerPort: ${TLS_PORT}
           volumeMounts:
@@ -154,6 +154,8 @@ objects:
             value: ${CERT_SERVER_STAGE}
           - name: TLS_FILE_PATH
             value: ${TLS_FILE_PATH}
+          - name: SIDECAR_VER
+            value: ${SIDECAR_VER}
           volumeMounts:
           - mountPath: /cert
             name: cert
@@ -179,12 +181,9 @@ parameters:
 - name: TLS_PORT
   description: Port that the application will use to listen for connections
   value: '8443'
-- name: CERT_PATH 
-  description: The path within the container that will contain the certs from LetsEncrypt
-  value: '/cert/'
 - name: TLS_FILE_PATH
   description: The directory that will hold the Lego TLS .crt and .key files
-  value: '/cert/lego/certificates/'
+  value: '/cert/certificates/'
 - name: APP_NAME
   description: The name of the application to run from the start script and pull from the registry
   value: 'cert'
@@ -193,10 +192,10 @@ parameters:
   value: 'pull'
 - name: APP_VER
   description: The version of the application container. Used to pull images with this tag
-  value: 'v0.0.7'
+  value: 'v0.0.8'
 - name: SIDECAR_VER
   description: The version of the sidecar container. Used to pull images with this tag
-  value: 'v0.0.4'
+  value: 'v0.0.5'
 - name: SSCS_CERT
   description: The path to the cert file provided by SSCS
   value: '/secrets/tls.crt'

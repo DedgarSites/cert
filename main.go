@@ -15,6 +15,7 @@ var (
 	port    = ":" + os.Getenv("TLS_PORT")
 	cert    = os.Getenv("SSCS_CERT")
 	key     = os.Getenv("SSCS_KEY")
+	path    = os.Getenv("TLS_FILE_PATH")
 )
 
 type certFile struct {
@@ -25,6 +26,7 @@ type certFile struct {
 func postCert(c echo.Context) error {
 	var cFile certFile
 
+	fmt.Println("data received")
 	if err := c.Bind(&cFile); err != nil {
 		fmt.Println("Error binding received data:\n", err)
 		return &echo.HTTPError{Code: http.StatusBadRequest, Message: "Failed to process content"}
@@ -36,9 +38,10 @@ func postCert(c echo.Context) error {
 	}
 	cFile.FileName = reg.ReplaceAllString(cFile.FileName, "")
 
+	fmt.Printf("searching %v for %v\n", path, cFile.FileName)
 	// check if file exists in list of files found in shared EmptyDir vol
-	if _, err := os.Stat("/cert/certificates/" + cFile.FileName); err == nil {
-		return c.Attachment(cFile.FileName, cFile.FileName)
+	if _, err := os.Stat(path + cFile.FileName); err == nil {
+		return c.Attachment(path+cFile.FileName, path+cFile.FileName)
 	}
 	return &echo.HTTPError{Code: http.StatusBadRequest, Message: "Failed to find file"}
 }
@@ -49,10 +52,9 @@ func main() {
 	e.Use(middleware.Recover())
 
 	e.POST("/api/cert", postCert)
+	e.POST("/api/cert/", postCert)
 
-	//e.Logger.Info(e.Start(":8080"))
 	fmt.Println("printing port, cert, key", port, cert, key)
 
 	e.Logger.Info(e.StartTLS(port, cert, key))
-	fmt.Println("passed the start")
 }
