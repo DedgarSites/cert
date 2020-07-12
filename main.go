@@ -40,10 +40,11 @@ func postCert(c echo.Context) error {
 
 	fmt.Printf("searching %v for %v\n", path, cFile.FileName)
 	// check if file exists in list of files found in shared EmptyDir vol
-	if _, err := os.Stat(path + cFile.FileName); err == nil {
-		return c.Attachment(path+cFile.FileName, path+cFile.FileName)
+	if _, err := os.Stat(path + cFile.FileName); err != nil {
+		fmt.Println("Error finding file:\n", err)
+		return &echo.HTTPError{Code: http.StatusBadRequest, Message: "Failed to find file"}
 	}
-	return &echo.HTTPError{Code: http.StatusBadRequest, Message: "Failed to find file"}
+	return c.Attachment(path+cFile.FileName, path+cFile.FileName)
 }
 
 func main() {
