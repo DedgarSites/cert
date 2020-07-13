@@ -146,12 +146,12 @@ objects:
             value: ${CERT_EMAIL}
           - name: DOMAIN_LIST
             value: ${DOMAIN_LIST}
-          - name: CERT_PATH
-            value: ${CERT_PATH}
           - name: CERT_SERVER_PROD
             value: ${CERT_SERVER_PROD}
           - name: CERT_SERVER_STAGE
             value: ${CERT_SERVER_STAGE}
+          - name: TLS_BASE_PATH
+            value: ${TLS_BASE_PATH}
           - name: TLS_FILE_PATH
             value: ${TLS_FILE_PATH}
           - name: SIDECAR_VER
@@ -181,6 +181,9 @@ parameters:
 - name: TLS_PORT
   description: Port that the application will use to listen for connections
   value: '8443'
+- name: TLS_BASE_PATH
+  description: The directory that we use with Lego, which creates a ./certificates sub-directory
+  value: '/cert/'
 - name: TLS_FILE_PATH
   description: The directory that will hold the Lego TLS .crt and .key files
   value: '/cert/certificates/'
