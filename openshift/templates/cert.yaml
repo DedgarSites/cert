@@ -156,6 +156,16 @@ objects:
             value: ${TLS_FILE_PATH}
           - name: SIDECAR_VER
             value: ${SIDECAR_VER}
+          - name: NAMECHEAP_API_USER
+            valueFrom:
+              secretKeyRef:
+                key: NAMECHEAP_API_USER
+                name: ncsecrets
+          - name: NAMECHEAP_API_KEY
+            valueFrom:
+              secretKeyRef:
+                key: NAMECHEAP_API_KEY
+                name: ncsecrets
           volumeMounts:
           - mountPath: /cert
             name: cert
